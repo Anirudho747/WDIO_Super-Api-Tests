@@ -68,12 +68,12 @@ describe.skip('Get',()=> {
 
 describe('post',()=>{
     const data = {
-        email: 'tztz4@zeemail.com',
+        email: 'tztz8@zeemail.com',
         name: 'Tazer',
-        gender: 'Male',
+        gender: 'male',
         status: 'active'
     };
-    it('Create new users',(done)=>{
+    it.skip('Create new users',(done)=>{
         request
                .post(`users`).set("Authorization",`Bearer ${token}`).send(data)
                .end((err,res) => {
@@ -82,6 +82,26 @@ describe('post',()=>{
                 expect(res.body.email).to.be.eq(data.email);
                 expect(res.body.status).to.be.eq(data.status);
                 expect(res.body.gender).to.be.eq(data.gender);
+
+                //Use deep include in Chai to verify all fields at once
+                expect(res.body).to.be.deep.include(data);
+                done();
+               })
+    })
+
+    it('Negative test case for validating just created users',(done)=>{
+        request
+               .post(`users`).set("Authorization",`Bearer ${token}`).send(data)
+               .end((err,res) => {
+                expect(res.body).to.not.be.empty;
+                console.log(res.body);
+                expect(res.body.email).to.be.eq(data.email);
+                expect(res.body.status).to.be.eq(data.status);
+                expect(res.body.gender).to.be.eq(data.gender);
+
+                //Change data before verification to fail the test case
+                data.email = 'tztz@zeemail.com';
+                expect(res.body).to.be.deep.include(data);
                 done();
                })
     })
