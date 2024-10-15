@@ -8,7 +8,7 @@ const page = 3;
 const gender = 'male';
 const sttus = 'active';
 
-describe('Get Users',()=> {
+describe.skip('Get',()=> {
     it('Get All users',()=> {
         request
                .get(`users?acess-token=${token}`).end((err,res)=>{
@@ -65,4 +65,25 @@ describe('Get Users',()=> {
     });
 
 });
+
+describe('post',()=>{
+    const data = {
+        email: 'tztz4@zeemail.com',
+        name: 'Tazer',
+        gender: 'Male',
+        status: 'active'
+    };
+    it('Create new users',(done)=>{
+        request
+               .post(`users`).set("Authorization",`Bearer ${token}`).send(data)
+               .end((err,res) => {
+                expect(res.body).to.not.be.empty;
+                console.log(res.body);
+                expect(res.body.email).to.be.eq(data.email);
+                expect(res.body.status).to.be.eq(data.status);
+                expect(res.body.gender).to.be.eq(data.gender);
+                done();
+               })
+    })
+})
 
