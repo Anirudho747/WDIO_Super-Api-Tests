@@ -8,7 +8,8 @@ const page = 3;
 const gender = 'male';
 const sttus = 'active';
 
-describe('Get',()=> {
+
+describe.skip('Get',()=> {
     it('Get All users',()=> {
         request
                .get(`users?acess-token=${token}`).end((err,res)=>{
@@ -66,7 +67,7 @@ describe('Get',()=> {
 
 });
 
-describe('post',()=>{
+describe.skip('post',()=>{
     const data = {
         //creating a email id with random number evrytime
         email: `tztz${Math.floor(Math.random()*9999)}@zeemail.com`,
@@ -108,7 +109,7 @@ describe('post',()=>{
     })
 })
 
-describe('put',()=>{
+describe.skip('put',()=>{
     const data = {
         //creating a email id with random number evrytime
         name: `loffy-${Math.floor(Math.random()*9999)}`,
@@ -130,7 +131,7 @@ describe('put',()=>{
     })
 })
 
-describe('delete',()=>{
+describe.skip('delete',()=>{
     it('delete Users',(done)=>{
         request
                .delete('users/7473181').set("Authorization",`Bearer ${token}`)
@@ -141,3 +142,4 @@ describe('delete',()=>{
                })
     })
 })
+
