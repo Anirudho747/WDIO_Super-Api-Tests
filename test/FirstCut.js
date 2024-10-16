@@ -3,22 +3,22 @@ import {expect} from 'chai';
 
 const request = supertest('https://gorest.co.in/public/v2/');
 const token = '4f81f3a9ca7260c6b6e99332ed79afcdf9961e11860d894c9778f37154224a26';
-const id = 7472262;
+const id = 7473145;
 const page = 3;
 const gender = 'male';
 const sttus = 'active';
 
-describe.skip('Get',()=> {
+describe('Get',()=> {
     it('Get All users',()=> {
         request
                .get(`users?acess-token=${token}`).end((err,res)=>{
                 expect(res.body).to.not.be.empty;
- //               console.log(res.body);
+                console.log(res.body);
                 console.log(err);
                })
     });
 
-    it.skip('Get/users negative flow',(done)=> {
+    it('Get/users negative flow',(done)=> {
         request
                .get(`users?acess-token=${token}`).end((err,res)=>{
                 expect(res.body).to.be.empty;
@@ -32,7 +32,7 @@ describe.skip('Get',()=> {
                .get(`users/${id}?acess-token=${token}`).end((err,res)=>{
                 expect(res.body).not.to.be.empty;
                 console.log(res.body);
-                expect(res.body.id).to.be.eq(7472262);
+                expect(res.body.id).to.be.eq(7473145);
                 done();
                })
     });
@@ -66,7 +66,7 @@ describe.skip('Get',()=> {
 
 });
 
-describe.skip('post',()=>{
+describe('post',()=>{
     const data = {
         //creating a email id with random number evrytime
         email: `tztz${Math.floor(Math.random()*9999)}@zeemail.com`,
@@ -114,9 +114,9 @@ describe('put',()=>{
         name: `loffy-${Math.floor(Math.random()*9999)}`,
         status: 'active'
     };
-    it('Update users',(done)=>{
+    it('Update user names & status',(done)=>{
         request
-               .put(`users/7473144`).set("Authorization",`Bearer ${token}`).send(data)
+               .put(`users/7473145`).set("Authorization",`Bearer ${token}`).send(data)
                .end((err,res) => {
                 expect(res.body).to.not.be.empty;
                 console.log(res.body);
@@ -125,6 +125,18 @@ describe('put',()=>{
 
                 //Use deep include in Chai to verify all fields at once
                 expect(res.body).to.be.deep.include(data);
+                done();
+               })
+    })
+})
+
+describe('delete',()=>{
+    it('delete Users',(done)=>{
+        request
+               .delete('users/7473181').set("Authorization",`Bearer ${token}`)
+               .end((err,res)=>{
+                expect(res.body).to.be.empty;
+                console.log(res.body);
                 done();
                })
     })
