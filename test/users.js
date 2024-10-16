@@ -66,14 +66,15 @@ describe.skip('Get',()=> {
 
 });
 
-describe('post',()=>{
+describe.skip('post',()=>{
     const data = {
-        email: 'tztz8@zeemail.com',
+        //creating a email id with random number evrytime
+        email: `tztz${Math.floor(Math.random()*9999)}@zeemail.com`,
         name: 'Tazer',
         gender: 'male',
         status: 'active'
     };
-    it.skip('Create new users',(done)=>{
+    it('Create new users',(done)=>{
         request
                .post(`users`).set("Authorization",`Bearer ${token}`).send(data)
                .end((err,res) => {
@@ -107,3 +108,24 @@ describe('post',()=>{
     })
 })
 
+describe('put',()=>{
+    const data = {
+        //creating a email id with random number evrytime
+        name: `loffy-${Math.floor(Math.random()*9999)}`,
+        status: 'active'
+    };
+    it('Update users',(done)=>{
+        request
+               .put(`users/7473144`).set("Authorization",`Bearer ${token}`).send(data)
+               .end((err,res) => {
+                expect(res.body).to.not.be.empty;
+                console.log(res.body);
+                expect(res.body.name).to.be.eq(data.name);
+                expect(res.body.status).to.be.eq(data.status);
+
+                //Use deep include in Chai to verify all fields at once
+                expect(res.body).to.be.deep.include(data);
+                done();
+               })
+    })
+})
