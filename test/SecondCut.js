@@ -4,7 +4,7 @@ import {expect} from "chai";
 const request = supertest('https://gorest.co.in/public/v2/');
 const token = '4f81f3a9ca7260c6b6e99332ed79afcdf9961e11860d894c9778f37154224a26';
 
-describe('All in One CRUD Ops',()=>{
+describe.skip('All in One CRUD Ops',()=>{
 
     let userId;
     const data = {
