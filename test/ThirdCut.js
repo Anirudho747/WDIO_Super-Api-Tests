@@ -97,3 +97,58 @@ describe('Using async and await',()=>
                     console.log(res.body);
     })
 })
+
+describe.only('Negative Scenarios',()=>{
+
+    const data3 = {
+        //creating a email id with random number evrytime
+        email: `Lsr${Math.floor(Math.random()*9999)}@Lasermail.com`,
+        name: 'Laser',
+        gender: 'male',
+        status: 'active'
+    }; 
+
+    const data4 = {
+        //creating a email id with random number evrytime
+        email: `Lsrmail.com`,
+        name: 'Laser',
+        gender: 'male',
+        status: 'active'
+    }; 
+
+    it('401 Authentication Failed',async()=>{
+        const res = await request.post('/users').
+        send(data3);
+        
+    console.log(res.text);
+    console.log(res.statusCode);
+
+    expect(res.statusCode).to.eq(401);
+    expect(res.text).to.eq('{"message":"Authentication failed"}');
+
+    })
+
+    it('422 Invalid Params',async()=>{
+        const res = await request.post('/users').
+        set("Authorization",`Bearer ${token}`).
+        send(data4);
+        
+    // console.log(res.text);
+    console.log(res.statusCode);
+
+    expect(res.statusCode).to.eq(422);
+    expect(res.text).to.eq('[{"field":"email","message":"is invalid"}]');
+
+    })
+
+    it('404 Resource does not Exist',async()=>{
+        const res = await request.post('/use').
+        set("Authorization",`Bearer ${token}`).
+        send(data4);
+        
+    // console.log(res.text);
+    console.log(res.statusCode);
+
+    expect(res.statusCode).to.eq(404);
+    })
+})
