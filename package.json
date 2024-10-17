@@ -19,5 +19,9 @@
     "chai": "^5.1.1",
     "mocha": "^10.7.3",
     "supertest": "^7.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "faker": "^6.6.6"
   }
 }

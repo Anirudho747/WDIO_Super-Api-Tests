@@ -1,13 +1,24 @@
 import {expect} from "chai";
 import supertest from "supertest";
+import qa from '../config/qa.js'
+const request = supertest(qa.baseUrl);
 import {giveRandomMessageForBeforeHook,
         giveRandomMessageForAfterHook,
         giveRandomMessageForBeforeEachHook,
         giveRandomMessageForAfterEachHook} from '../test/helper/user_helper.js'
+let rm,rm2,rm3,rm4,token;
+import dotenv from 'dotenv';
 
-let rm,rm2,rm3,rm4;
-const request = supertest('https://gorest.co.in/public/v2/');
-const token = '4f81f3a9ca7260c6b6e99332ed79afcdf9961e11860d894c9778f37154224a26';
+/*
+copied from proj, this is how its handled in real time
+if (process.env.NODE_ENV === 'staging') {
+    dotenv.config({ path: '../.env.staging' });
+ } else if (process.env.NODE_ENV === 'dev'){
+    dotenv.config({ path: '../.env.dev' });
+ } else{
+    dotenv.config({ path: '../.env.prod' });
+ }
+ */
 
 before(async()=>{
 
@@ -35,7 +46,9 @@ afterEach(async()=>{
     console.log(rm4);
 });
 
-describe.skip('Using async and await',()=>
+token = process.env.USER_TOKEN;
+
+describe('Using async and await',()=>
 {
   
     let userId;
@@ -98,12 +111,12 @@ describe.skip('Using async and await',()=>
     })
 })
 
-describe.skip('Negative Scenarios',()=>{
+describe.only('Negative Scenarios',()=>{
 
     const data3 = {
         //creating a email id with random number evrytime
         email: `Lsr${Math.floor(Math.random()*9999)}@Lasermail.com`,
-        name: 'Laser',
+        name: 'fekchand',
         gender: 'male',
         status: 'active'
     }; 
@@ -111,7 +124,7 @@ describe.skip('Negative Scenarios',()=>{
     const data4 = {
         //creating a email id with random number evrytime
         email: `Lsrmail.com`,
-        name: 'Laser',
+        name: 'nekchand',
         gender: 'male',
         status: 'active'
     }; 
@@ -120,6 +133,8 @@ describe.skip('Negative Scenarios',()=>{
         const res = await request.post('/users').
         send(data3);
         
+    console.log(data3);    
+    console.log(data4);    
     console.log(res.text);
     console.log(res.statusCode);
 
